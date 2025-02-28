@@ -52,8 +52,11 @@ public class StackArray<T> implements Stack<T> {
         return this.stack[index-2];
     }
 
-    public static void main(String[] args) {
-
+    public T get() {
+        if (this.isEmpty()) {
+            return null;
+        }
+        return this.stack[index-1];
     }
 
 }
