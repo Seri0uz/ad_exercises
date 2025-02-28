@@ -52,4 +52,8 @@ public class StackArray<T> implements Stack<T> {
         return this.stack[index-2];
     }
 
+    public static void main(String[] args) {
+
+    }
+
 }
