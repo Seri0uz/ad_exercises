@@ -1,31 +1,47 @@
 package ch.hslu.sw2;
 
-import ch.hslu.sw1.Wagen;
-
 import java.util.Objects;
 
-public class Node {
-    private int value;
-    private Node nextValue;
+public class Node<T> {
+    private final T value;
+    private Node<T> nextValue;
 
-    public Node(int value) {
+    public Node(T value) {
         this.value = value;
     }
-    public Node(int value, Node nextValue) {
-        this.value = value;
-        this.nextValue = nextValue;
-    }
-    public int getValue() {
+
+    public T getValue() {
         return value;
     }
-    public Node getNextValue() {
+
+    public void link(Node<T> next){
+        this.nextValue = next;
+    }
+
+    public Node<T> getNext() {
         return nextValue;
     }
-    public void setValue(int value) {
-        this.value = value;
+
+    public boolean hasNext() {
+        return nextValue != null;
     }
-    public void setNextValue(Node value) {
-        this.nextValue = value;
+
+    @Override
+    public String toString() {
+        return value + " -> " + nextValue;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        return (o instanceof Node node)
+                && Objects.equals(this.value, node.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
     }
 
 }

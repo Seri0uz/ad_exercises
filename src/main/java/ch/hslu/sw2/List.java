@@ -1,60 +1,68 @@
 package ch.hslu.sw2;
 
-public class List {
-    private Node head;
-    private Node tail;
-    public List(Node value){
-        this.head = value;
+public class List<T> {
+    private Node<T> head;
+    private int size = 0;
+    public List(){
+        this.head = null;
     }
 
     public int size() {
-        int size = 0;
-        Node current = this.head;
-        while (current != null) {
-            size++;
-            current = current.getNextValue();
-        }
-        return size;
+        return this.size;
     }
 
-    public void add(Node value){
-        value.setNextValue(this.head);
-        this.head = value;
+    public void add(Node<T> node){
+        node.link(this.head);
+        this.head = node;
+        size++;
     }
 
-    public Node getHead(){
+    public Node<T> getHead(){
         return this.head;
     }
 
-    public boolean getValue(int value){
-        for (Node current = this.head; current != null; current = current.getNextValue()){
-            if (current.getValue() == value){
+    public boolean search(T value){
+        for (Node<T> current = this.head; current != null; current = current.getNext()){
+            if (current.getValue().equals(value)){
                 return true;
             }
         }
         return false;
     }
 
-    public Node fifo () {
+    public Node<T> pop() {
         if (this.head == null){
             return null;
         }
-        Node oldHead = this.head;
-        this.head = this.head.getNextValue();
+        Node<T> oldHead = this.head;
+        this.head = this.head.getNext();
+        size--;
         return oldHead;
     }
 
-    public void remove(Node value){
-        Node current = this.head;
-        Node toRemove = null;
-        while (current != null){
-            if (current.getValue() == value){
-                toRemove = current;
-            }
-            current = current.getNextValue();
-        }
-    }
+    public boolean remove(T value){
+        Node<T> current = head;
+        Node<T> prev = head;
 
+        if (head == null) {
+            return false; // Liste ist leer
+        }
+        if (current.getValue().equals(value)) {
+            pop();
+            return true;
+        }
+
+        while (current.hasNext()) {
+            current = current.getNext();
+            if (value.equals(current.getValue())) {
+                prev.link(current.getNext());
+                this.size--;
+                return true;
+            }
+            prev = current;
+        }
+        return false;
+    }
 }
 
 

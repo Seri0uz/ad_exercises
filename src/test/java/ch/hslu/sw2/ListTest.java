@@ -1,70 +1,58 @@
 package ch.hslu.sw2;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ListTest {
-    @Test
-    void testSizeOneItem(){
-        List list = new List(new Node(1));
-        assertEquals(1,list.size());
-    }
+    private List list;
 
-    @Test
-    void testSizeTwoItems(){
-        List list = new List(new Node(20, new Node(6)));
-        assertEquals(2,list.size());
+    @BeforeEach
+    public void setup(){
+        list = new List<Integer>();
     }
 
     @Test
     void testAddValue(){
-        List list = new List(new Node(1));
-        list.add(new Node(3));
-        assertEquals(3,list.getHead().getValue());
-        assertEquals(1,list.getHead().getNextValue().getValue());
+        list.add(new Node<Integer>(4));
+        list.add(new Node<Integer>(2));
+        list.add(new Node<Integer>(3));
+        assertEquals(3, list.size());
     }
 
     @Test
-    void testGetValueTrue(){
-        List list = new List(new Node(1));
-        list.add(new Node(3));
-        list.add(new Node(5));
-        list.add(new Node(7));
-        assertTrue(list.getValue(3));
-        assertTrue(list.getValue(5));
-        assertTrue(list.getValue(7));
+    void testSearchValue(){
+        list.add(new Node<Integer>(4));
+        assertTrue(list.search(4));
     }
 
     @Test
-    void testGetValueFalse(){
-        List list = new List(new Node(1));
-        list.add(new Node(7));
-        list.add(new Node(5));
-        assertFalse(list.getValue(8));
+    void testPop(){
+        Node<Integer> node = new Node<>(8);
+        Node<Integer> node1 = new Node<>(9);
+        list.add(node);
+        list.add(node1);
+        list.pop();
+        assertFalse(list.search(9));
     }
 
     @Test
-    void testFifo(){
-        List list = new List(new Node(1));
-        list.add(new Node(7));
-        list.add(new Node(9));
-        list.fifo();
-        assertEquals(7,list.getHead().getValue());
+    void testPopReturn(){
+        list.add(new Node<Integer>(7));
+        assertEquals(7,list.pop().getValue());
     }
 
     @Test
-    void testFifoReturn(){
-        List list = new List(new Node(1));
-        list.add(new Node(7));
-        assertEquals(7,list.fifo());
-    }
-
-    @Test
-    void testFifoEmpty(){
-        List list = new List(new Node(1));
-        list.fifo();
+    void testPopEmpty(){
+        list.pop();
         assertNull(list.getHead());
+    }
+
+    @Test
+    void testRemoveValue(){
+        list.remove(new Node<Integer>(1));
+        assertFalse(list.search(1));
     }
 
 

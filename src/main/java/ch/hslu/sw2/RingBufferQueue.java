@@ -1,5 +1,7 @@
 package ch.hslu.sw2;
 
+import java.util.Arrays;
+
 public final class RingBufferQueue implements Queue {
     private int readerPosition = 0;
     private int writerPosition = 0;
@@ -51,5 +53,10 @@ public final class RingBufferQueue implements Queue {
             this.readerPosition -= this.buffer.length;
         }
         return character;
+     }
+
+     @Override
+    public String toString() {
+        return "Buffersize: " + size + " ReaderPosition: " + readerPosition + " WriterPosition: " + writerPosition + "\nBuffer: " + Arrays.toString(buffer);
      }
 }
