@@ -33,7 +33,11 @@ class RingBufferQueueTest {
         queue.enqueue('d');
         queue.dequeue();
         queue.enqueue('e');
-        assertEquals('c', queue.dequeue());
+        queue.dequeue();
+        queue.enqueue('f');
+        queue.dequeue();
+        queue.enqueue('g');
+        assertEquals('e', queue.dequeue());
     }
 
     @Test
