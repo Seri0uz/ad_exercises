@@ -9,4 +9,5 @@ public class Mul extends Node {
     public String toString(){
         return "("+getLeft()+" * "+getRight()+")";
     }
+
 }

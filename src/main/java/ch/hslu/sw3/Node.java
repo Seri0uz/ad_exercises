@@ -11,9 +11,9 @@ public class Node {
     }
 
     public Node(String operator, Node left, Node right) {
-        this.operator = operator;
         this.left = left;
         this.right = right;
+        this.operator = operator;
     }
 
     public int getValue() {
@@ -41,6 +41,20 @@ public class Node {
 
     public void setRight(Node right) {
         this.right = right;
+    }
+
+    public int eval() {
+        if (operator != null) {
+            if (operator.equals("ADD")) {
+                this.value = left.getValue() + right.getValue();
+                return value;
+            }
+            if (operator.equals("MUL")) {
+                this.value = left.getValue() * right.getValue();
+                return value;
+            }
+        }
+        return value;
     }
 
     @Override

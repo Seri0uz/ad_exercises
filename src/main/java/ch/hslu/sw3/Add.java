@@ -8,7 +8,5 @@ public class Add extends Node {
     @Override
     public String toString(){
         return "("+getLeft()+" + "+getRight()+")";
-
-
     }
 }
