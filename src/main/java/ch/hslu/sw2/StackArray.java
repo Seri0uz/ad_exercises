@@ -25,7 +25,7 @@ public class StackArray<T> implements Stack<T> {
     }
 
     @Override
-    public void push(T element) {
+    public void push(final T element) {
         if (isFull()) {
             throw new StackOverflowError("Stack is full");
         }

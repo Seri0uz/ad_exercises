@@ -17,7 +17,7 @@ public class List<T> {
         size++;
     }
 
-    public Node<T> getHead(){
+    public Node<T> getHead(){ // nie Methoden schreiben nur für den Test!! Gefährlich, da es die ganze Liste zurückgibt
         return this.head;
     }
 
