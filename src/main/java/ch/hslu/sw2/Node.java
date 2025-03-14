@@ -37,6 +37,7 @@ public class Node<T> {
             return true;
         return (o instanceof Node node)
                 && Objects.equals(this.value, node.value);
+
     }
 
     @Override
