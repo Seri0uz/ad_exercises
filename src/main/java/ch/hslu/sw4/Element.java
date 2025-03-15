@@ -20,7 +20,7 @@ public class Element {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, number);
+        return Objects.hash(name);
     }
 
     @Override
@@ -29,7 +29,11 @@ public class Element {
             return true;
         }
         return (obj instanceof Element element)
-            && Objects.equals(this.name, element.name)
-            && this.number == element.number;
+            && Objects.equals(this.name, element.name);
+    }
+
+    @Override
+    public String toString() {
+        return "Name: " + name + ", Number: " + number;
     }
 }
