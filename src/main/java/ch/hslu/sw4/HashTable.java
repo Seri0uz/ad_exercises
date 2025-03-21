@@ -1,16 +1,17 @@
 package ch.hslu.sw4;
 
+import ch.hslu.sw2.Node;
+
 public class HashTable implements HashTableInterface {
-    private static final HashItem TOMBSTONE = new HashItem(null);
+    private static final Node<Element> TOMBSTONE = new Node<>(new Element("Tombstone",0));
 
     private final int size;
     private int usedSize;
-    private HashItem[] items;
+    private Node<Element>[] items;
     public HashTable(int size) {
         this.size = size;
         this.usedSize = 0;
-        this.items = new HashItem[size];
-        TOMBSTONE.setIsGraveStone(true);
+        this.items = new Node[size];
     }
 
     public boolean isEmpty() {
@@ -23,7 +24,7 @@ public class HashTable implements HashTableInterface {
 
     @Override
     public void clear() {
-        this.items = new HashItem[size];
+        this.items = new Node[size];
     }
 
     @Override
@@ -38,20 +39,20 @@ public class HashTable implements HashTableInterface {
             if (index > this.size) { // end reached
                 return false;
             }
-            if(items[index].getElement().equals(e)){ // duplicates not allowed
+            if(items[index].getValue().equals(e)){ // duplicates not allowed
                 return false;
             }
 
             index++;
         }
 
-        this.items[index] = new HashItem(e);
+        this.items[index] = new Node<Element>(,e);
         this.usedSize++;
         return true;
     }
 
     private boolean hasNext(int index){
-        return index < this.size && this.items[index] != null && this.items[index] != TOMBSTONE;
+        return index < this.size && this.items[index] != null;
     }
 
     @Override
@@ -59,7 +60,7 @@ public class HashTable implements HashTableInterface {
         int index = Math.abs(e.hashCode() % this.size);
 
         while (hasNext(index)) {
-            if (this.items[index] != null && this.items[index].getElement().equals(e)) {
+            if (this.items[index] != null && this.items[index].getValue().equals(e)) {
                 return true;
             }
             index++;
@@ -74,7 +75,7 @@ public class HashTable implements HashTableInterface {
         }
         int index = Math.abs(e.hashCode() % size);
         while (hasNext(index)) {
-            if (items[index].getElement().equals(e)) {
+            if (items[index].getValue().equals(e)) {
                 this.items[index] = TOMBSTONE;
                 this.usedSize--;
                 return true;
