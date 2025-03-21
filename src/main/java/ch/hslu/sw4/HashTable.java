@@ -3,7 +3,7 @@ package ch.hslu.sw4;
 import ch.hslu.sw2.Node;
 
 public class HashTable implements HashTableInterface {
-    private static final Node<Element> TOMBSTONE = new Node<>(new Element("Tombstone",0));
+    private static final Node<Element> TOMBSTONE = new Node<>(new Element("Tombstone",0), null);
 
     private final int size;
     private int usedSize;
@@ -45,9 +45,13 @@ public class HashTable implements HashTableInterface {
 
             index++;
         }
-
-        this.items[index] = new Node<Element>(,e);
-        this.usedSize++;
+        if(items[index] == null){
+            this.items[index] = new Node<Element>(e,null);
+            this.usedSize++;
+        }
+        else {
+            items[index] = new Node<Element>(e,items[index]);
+        }
         return true;
     }
 

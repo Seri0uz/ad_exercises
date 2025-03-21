@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class NodeTest {
     @Test
     void testGetValue() {
-        Node n = new Node<Integer>(56);
+        Node n = new Node<Integer>(56, null);
         assertEquals(56,n.getValue());
     }
 }

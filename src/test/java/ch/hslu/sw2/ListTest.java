@@ -15,22 +15,22 @@ class ListTest {
 
     @Test
     void testAddValue(){
-        list.add(new Node<Integer>(4));
-        list.add(new Node<Integer>(2));
-        list.add(new Node<Integer>(3));
+        list.add(new Node<Integer>(4, null));
+        list.add(new Node<Integer>(2, null));
+        list.add(new Node<Integer>(3, null));
         assertEquals(3, list.size());
     }
 
     @Test
     void testSearchValue(){
-        list.add(new Node<Integer>(4));
+        list.add(new Node<Integer>(4, null));
         assertTrue(list.search(4));
     }
 
     @Test
     void testPop(){
-        Node<Integer> node = new Node<>(8);
-        Node<Integer> node1 = new Node<>(9);
+        Node<Integer> node = new Node<>(8, null);
+        Node<Integer> node1 = new Node<>(9, null);
         list.add(node);
         list.add(node1);
         list.pop();
@@ -39,7 +39,7 @@ class ListTest {
 
     @Test
     void testPopReturn(){
-        list.add(new Node<Integer>(7));
+        list.add(new Node<Integer>(7, null));
         assertEquals(7,list.pop().getValue());
     }
 
@@ -51,7 +51,7 @@ class ListTest {
 
     @Test
     void testRemoveValue(){
-        list.remove(new Node<Integer>(1));
+        list.remove(new Node<Integer>(1, null));
         assertFalse(list.search(1));
     }
 

@@ -22,13 +22,16 @@ class HashTableTest {
 
     @Test
     public void testHashTableFull() {
-        HashTable hashTable = new HashTable(5);
+        HashTable hashTable = new HashTable(10);
         hashTable.add(new Element("Hydrogen",1));
         hashTable.add(new Element("t",56));
         hashTable.add(new Element("s",11));
         hashTable.add(new Element("aa",56));
         hashTable.add(new Element("ten",56));
-
+        hashTable.add(new Element("tw",56));
+        hashTable.add(new Element("th",56));
+        hashTable.add(new Element("f",56));
+        hashTable.add(new Element("g",56));
         assertFalse(hashTable.add(new Element("Hydrogen",1)));
     }
 
