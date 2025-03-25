@@ -22,6 +22,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.Shape;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -91,6 +92,10 @@ public final class Canvas {
         frame.pack();
         objects = new ArrayList<>();
         shapes = new HashMap<>();
+    }
+
+    public JFrame getFrame() {
+        return frame;
     }
 
     /**

@@ -17,13 +17,18 @@ package ch.hslu.sw5;
 
 import java.util.Random;
 
+import static ch.hslu.sw5.DemoBallsVirtualThreads.MIN_DIAMETER;
+
 /**
  * Description of class Ball
  */
 public final class Ball implements Runnable {
 
-    public static final int MIN_DIAMETER = 20;
-    public static final int MAX_DIAMETER = 50;
+    private final int size;
+    private int xPos;
+    private int yPos;
+    private String color;
+
 
     private static Random random = new Random();
 
@@ -35,18 +40,20 @@ public final class Ball implements Runnable {
      * Erzeugt einen Ball mit gegebenen Parametern Grösse, Position und Farbe.
      *
      */
-    public Ball() {
+    public Ball(final int size, final int xPos, final int yPos, String color) {
+        this.size = size;
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.color = color;
     }
 
     @Override
     public void run() {
-        Circle circle = new Circle(Ball.randomRangeInteger(MIN_DIAMETER,MAX_DIAMETER),
-                randomRangeInteger(1,Canvas.WIDTH),randomRangeInteger(1,Canvas.HEIGHT/3),
-                randomColourString());
+        Circle circle = new Circle(size,xPos,yPos,color);
 
         circle.makeVisible();
 
-        int velocity = Ball.randomRangeInteger(1,10);
+        int velocity = size/2;
         while(circle.getY() < Canvas.HEIGHT-circle.getDiameter()){
             circle.moveVertical(velocity);
         }
@@ -59,15 +66,4 @@ public final class Ball implements Runnable {
     }
 
 
-    public static int randomRangeInteger(int min, int max){
-        if(random == null){
-            random = new Random();
-        }
-
-        return random.nextInt(min+max)+min;
-    }
-
-    public static String randomColourString(){
-        return colourList[randomRangeInteger(0,colourList.length)];
-    }
 }
