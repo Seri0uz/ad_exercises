@@ -15,22 +15,42 @@
  */
 package ch.hslu.sw5;
 
+import java.util.Random;
+
+import static ch.hslu.sw5.Ball.colourList;
+import static ch.hslu.sw5.Canvas.HEIGHT;
+import static ch.hslu.sw5.Canvas.WIDTH;
+
 /**
  * Demonstration von Bällen.
  */
 public final class DemoBalls {
+
+    public static final int MIN_DIAMETER = 20;
+    public static final int MAX_DIAMETER = 50;
+
+    private static Random random = new Random();
+
     public static void main(final String[] args) throws InterruptedException {
         Canvas canvas = Canvas.getCanvas();
-        Ball ball = new Ball();
-
         for(int i = 0; i<30; i++) {
-
-            Thread thread = new Thread(ball,"ball" + i);
+            Thread thread = new Thread(new Ball(randomRangeInteger(MIN_DIAMETER,MAX_DIAMETER),randomRangeInteger(1,WIDTH),randomRangeInteger(1,HEIGHT/3),randomColourString()),"ball" + i);
             thread.start();
             Thread.sleep(1000);
         }
 
         System.exit(0);
+    }
+
+    public static int randomRangeInteger(int min, int max){
+        if(random == null){
+            random = new Random();
+        }
+        return random.nextInt(min+max)+min;
+    }
+
+    public static String randomColourString(){
+        return colourList[randomRangeInteger(0,colourList.length)];
     }
 
 }
