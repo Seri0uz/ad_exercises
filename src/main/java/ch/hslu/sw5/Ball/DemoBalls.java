@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.sw5;
+package ch.hslu.sw5.Ball;
 
 import java.util.Random;
 
-import static ch.hslu.sw5.Ball.colourList;
-import static ch.hslu.sw5.Canvas.HEIGHT;
-import static ch.hslu.sw5.Canvas.WIDTH;
+import static ch.hslu.sw5.Ball.Ball.colourList;
+import static ch.hslu.sw5.Ball.Canvas.HEIGHT;
+import static ch.hslu.sw5.Ball.Canvas.WIDTH;
 
 /**
  * Demonstration von Bällen.

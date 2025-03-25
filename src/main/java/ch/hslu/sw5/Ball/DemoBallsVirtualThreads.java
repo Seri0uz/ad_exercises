@@ -1,10 +1,10 @@
-package ch.hslu.sw5;
+package ch.hslu.sw5.Ball;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Random;
 
-import static ch.hslu.sw5.Ball.colourList;
+import static ch.hslu.sw5.Ball.Ball.colourList;
 
 public class DemoBallsVirtualThreads implements MouseListener {
 

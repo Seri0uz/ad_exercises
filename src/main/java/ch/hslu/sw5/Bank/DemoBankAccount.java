@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.ad.exercise.n1.bank;
+package ch.hslu.sw5.Bank;
 
 import java.util.ArrayList;
 import org.slf4j.LoggerFactory;
@@ -53,8 +53,8 @@ public final class DemoBankAccount {
     public static void main(String[] args) throws InterruptedException {
         final ArrayList<BankAccount> source = new ArrayList<>();
         final ArrayList<BankAccount> target = new ArrayList<>();
-        final int amount = 100_000;
-        final int number = 5;
+        final int amount = 1_100_001;
+        final int number = 10;
         for (int i = 0; i < number; i++) {
             source.add(new BankAccount(amount));
             target.add(new BankAccount());

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.ad.exercise.n1.bank;
+package ch.hslu.sw5.Bank;
 
 /**
  * Einfaches Bankkonto, das nur den Kontostand beinhaltet.
@@ -52,8 +52,16 @@ public final class BankAccount {
      *
      * @param amount Einzuzahlender Betrag
      */
-    public void deposite(final int amount) {
-        this.balance += amount;
+    public void deposit(final int amount) {
+        synchronized (this) {
+            this.balance += amount;
+        }
+    }
+
+    private void withdraw(int amount) {
+        synchronized (this) {
+            this.balance -= amount;
+        }
     }
 
     /**
@@ -63,7 +71,7 @@ public final class BankAccount {
      * @param amount zu überweisender Betrag.
      */
     public void transfer(final BankAccount target, final int amount) {
-        this.balance -= amount;
-        target.deposite(amount);
+        target.withdraw(amount);
+        target.deposit(amount);
     }
 }

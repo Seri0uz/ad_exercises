@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.sw5;
+package ch.hslu.sw5.Ball;
 
 import java.awt.geom.Ellipse2D;
 
