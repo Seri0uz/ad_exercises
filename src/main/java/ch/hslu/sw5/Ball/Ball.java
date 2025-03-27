@@ -58,7 +58,7 @@ public final class Ball implements Runnable {
             circle.moveVertical(velocity);
         }
         while (circle.getDiameter() >= MIN_DIAMETER){
-            circle.changeSize(circle.getDiameter()-1);
+            circle.changeSize(circle.getDiameter()-2);
         }
 
         circle.makeInvisible();
