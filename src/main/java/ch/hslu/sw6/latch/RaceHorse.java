@@ -16,6 +16,9 @@
 package ch.hslu.sw6.latch;
 
 import java.util.Random;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Phaser;
+
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -29,6 +32,8 @@ public final class RaceHorse implements Runnable {
     private final Synch startSignal;
     private final String name;
     private final Random random;
+    private final CountDownLatch latch;
+    private final Phaser phaser;
 
     /**
      * Erzeugt ein Rennpferd, das in die Starterbox eintritt.
@@ -36,20 +41,25 @@ public final class RaceHorse implements Runnable {
      * @param startSignal Starterbox.
      * @param name Name des Pferdes.
      */
-    public RaceHorse(final Synch startSignal, final String name) {
+    public RaceHorse(final Synch startSignal, final String name, CountDownLatch latch, Phaser phaser) {
         this.startSignal = startSignal;
         this.name = name;
+        this.phaser = phaser;
         this.random = new Random();
+        this.latch = latch;
     }
 
     @Override
     public void run() {
         LOG.info("Rennpferd {} geht in die Box.", name);
+        phaser.arriveAndAwaitAdvance(); // Ensure all horses are at the start
         try {
             startSignal.acquire();
             LOG.info("Rennpferd {} laeuft los...", name);
             Thread.sleep(random.nextInt(3000));
             LOG.info("Rennpferd {} ist im Ziel.", name);
+            latch.countDown();
+
         }
         catch (InterruptedException ex) {
             LOG.warn(ex.getMessage(), ex);

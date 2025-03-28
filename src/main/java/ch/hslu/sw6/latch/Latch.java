@@ -31,20 +31,16 @@ public final class Latch implements Synch {
     }
     
     @Override
-    public void acquire() throws InterruptedException {
-        synchronized (this) {
-            while (!this.started) {
-                this.wait();
-            }
+    public synchronized void acquire() throws InterruptedException {
+        while (!this.started) {
+            this.wait();
         }
     }
 
     @Override
-    public void release() {
-        synchronized (this) {
-            this.started = true;
-            this.notifyAll();
-        }
+    public synchronized void release() {
+        this.started = true;
+        this.notifyAll();
     }
 }
 

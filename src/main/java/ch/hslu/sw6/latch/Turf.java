@@ -18,6 +18,9 @@ package ch.hslu.sw6.latch;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Phaser;
+
 /**
  * Eine Rennbahn für das Pferderennen.
  */
@@ -25,7 +28,6 @@ public final class Turf {
 
     private static final Logger LOG = LoggerFactory.getLogger(Turf.class);
     private static final int HORSES = 5;
-    private static final Object LOCK = new Object();
 
     /**
      * Privater Konstruktor.
@@ -39,11 +41,22 @@ public final class Turf {
      */
     public static void main(final String[] args) {
         final Synch starterBox = new Latch();
+        final CountDownLatch latch = new CountDownLatch(HORSES);
+        final Phaser phaser = new Phaser(HORSES + 1);
+
         for (int i = 1; i <= HORSES; i++) {
-            Thread.startVirtualThread(new RaceHorse(starterBox, "Horse " + i));
+            Thread.startVirtualThread(new RaceHorse(starterBox, "Horse " + i,latch,phaser));
         }
+        phaser.arriveAndAwaitAdvance(); // Ensure all horses are ready
         LOG.info("Start...");
         starterBox.release();
+
+        try {
+            latch.await(); // Wait for all horses to finish
+            LOG.info("Race finished");
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 }
 
