@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Hochschule Luzern - Informatik.
+ * Copyright 2025 Hochschule Luzern Informatik.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,32 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.sw6.waitpool;
+package ch.hslu.sw7.prime;
+
+import java.math.BigInteger;
+import java.util.Random;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
- * Demonstration eines Wait-Pools.
+ * 100 grosse Primzahlen finden.
  */
-public final class DemoWaitPool {
+public final class PrimeCheck {
 
-    private static final Object LOCK = new Object();
+    private static final Logger LOG = LoggerFactory.getLogger(PrimeCheck.class);
 
     /**
      * Privater Konstruktor.
      */
-    private DemoWaitPool() {
+    private PrimeCheck() {
     }
 
     /**
      * Main-Demo.
+     *
      * @param args not used.
-     * @throws InterruptedException wenn das warten unterbrochen wird.
      */
-    public static void main(final String args[]) throws InterruptedException {
-        final MyTask waiter = new MyTask(LOCK);
-        new Thread(waiter).start();
-        Thread.sleep(1000); //darf nicht in synchronized sein, sonst Deadlock
-        synchronized (LOCK) {
-            LOCK.notify();
+    public static void main(String[] args) {
+        int n = 1;
+        while (n <= 100) {
+            BigInteger bi = new BigInteger(1024, new Random());
+            if (bi.isProbablePrime(Integer.MAX_VALUE)) {
+                LOG.info("{} : {}...", n, bi.toString().substring(0, 20));
+                n++;
+            }
         }
     }
 }

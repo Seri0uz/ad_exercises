@@ -25,22 +25,27 @@ public final class Latch implements Synch {
     /**
      * Erzeugt ein Latch.
      */
+    private final Object monitor = new Object();  // bessere Lösung als ganze Methode synchronisieren
     private boolean started = false;
 
-    public Latch() {
+    public Latch(){
     }
     
     @Override
-    public synchronized void acquire() throws InterruptedException {
-        while (!this.started) {
-            this.wait();
+    public void acquire() throws InterruptedException {
+        synchronized (monitor) {
+            while (!this.started) {
+                monitor.wait();
+            }
         }
     }
 
     @Override
-    public synchronized void release() {
-        this.started = true;
-        this.notifyAll();
+    public void release() {
+        synchronized (monitor) {
+            this.started = true;
+            monitor.notifyAll();
+        }
     }
 }
 
