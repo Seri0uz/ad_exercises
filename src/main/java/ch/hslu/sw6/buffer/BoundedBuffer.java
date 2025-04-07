@@ -30,7 +30,6 @@ public final class BoundedBuffer<T> implements Buffer<T> {
     private final ArrayDeque<T> queue;
     private final Semaphore putSema;
     private final Semaphore takeSema;
-    private final int maxSize;
     private int usedSize;
 
     /**
@@ -42,7 +41,6 @@ public final class BoundedBuffer<T> implements Buffer<T> {
         queue = new ArrayDeque<>(n);
         putSema = new Semaphore(n);
         takeSema = new Semaphore(0);
-        maxSize = n;
         usedSize = 0;
     }
 
@@ -75,7 +73,7 @@ public final class BoundedBuffer<T> implements Buffer<T> {
         }
         putSema.acquire();
         synchronized (queue) {
-            queue.addLast(elem);
+            queue.addFirst(elem);
         }
         usedSize++;
         takeSema.release();
@@ -104,11 +102,11 @@ public final class BoundedBuffer<T> implements Buffer<T> {
 
     @Override
     public boolean full() {
-        return usedSize >= maxSize;
+        return usedSize >= queue.size();
     }
 
     @Override
     public int size() {
-        return usedSize;
+        return queue.size();
     }
 }

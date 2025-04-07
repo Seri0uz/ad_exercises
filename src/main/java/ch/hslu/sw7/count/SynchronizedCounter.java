@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.ad.exercise.n3.count;
+package ch.hslu.sw7.count;
 
 /**
  * Thread-sicherer Zähler.

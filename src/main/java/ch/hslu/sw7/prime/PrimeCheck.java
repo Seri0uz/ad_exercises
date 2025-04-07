@@ -17,6 +17,8 @@ package ch.hslu.sw7.prime;
 
 import java.math.BigInteger;
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
+
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -39,6 +41,7 @@ public final class PrimeCheck {
      * @param args not used.
      */
     public static void main(String[] args) {
+        final long start = System.currentTimeMillis();
         int n = 1;
         while (n <= 100) {
             BigInteger bi = new BigInteger(1024, new Random());
@@ -47,5 +50,6 @@ public final class PrimeCheck {
                 n++;
             }
         }
+        LOG.info("Time needed for calculation: {}ms",(System.currentTimeMillis()-start));
     }
 }

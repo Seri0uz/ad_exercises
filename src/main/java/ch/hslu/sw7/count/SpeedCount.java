@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.ad.exercise.n3.count;
+package ch.hslu.sw7.count;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -25,7 +25,7 @@ import org.slf4j.Logger;
  */
 public final class SpeedCount {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ch.hslu.ad.exercise.n3.count.SpeedCount.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SpeedCount.class);
 
     /**
      * Privater Konstruktor.
@@ -42,14 +42,16 @@ public final class SpeedCount {
      * @return Dauer des Tests in mSec.
      */
     public static long speedTest(Counter counter, int counts, int threads) {
-        try (final ExecutorService executor = Executors.newCachedThreadPool()) {
+        final long start = System.currentTimeMillis();
+        final ExecutorService executor = Executors.newCachedThreadPool();
+        try {
             for (int i = 0; i < threads; i++) {
                 executor.submit(new CountTask(counter, counts));
             }
-            long duration = -1L;
-            return duration;
+            return System.currentTimeMillis()-start;
+
         } finally {
-            // Executor shutdown
+            executor.close();
         }
     }
 
