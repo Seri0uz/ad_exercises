@@ -51,10 +51,11 @@ public final class DemoBankAccount {
      * @throws InterruptedException wenn Warten unterbrochen wird.
      */
     public static void main(String[] args) throws InterruptedException {
+        final long start = System.currentTimeMillis();
         final ArrayList<BankAccount> source = new ArrayList<>();
         final ArrayList<BankAccount> target = new ArrayList<>();
-        final int amount = 1_100_001;
-        final int number = 1000;
+        final int amount = 500_080;
+        final int number = 50;
         for (int i = 0; i < number; i++) {
             source.add(new BankAccount(amount));
             target.add(new BankAccount());
@@ -72,5 +73,6 @@ public final class DemoBankAccount {
         for (int i = 0; i < number; i++) {
             LOG.info("source({}) = {}; target({}) = {};", i, source.get(i).getBalance(), i, target.get(i).getBalance());
         }
+        LOG.info("Time elapsed: {}",(System.currentTimeMillis() - start));
     }
 }

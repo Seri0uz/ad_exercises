@@ -17,8 +17,6 @@ package ch.hslu.sw7.prime;
 
 import java.math.BigInteger;
 import java.util.Random;
-import java.util.concurrent.CompletableFuture;
-
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 

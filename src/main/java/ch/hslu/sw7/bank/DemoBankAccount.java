@@ -13,9 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.ad.exercise.n3.bank;
+package ch.hslu.sw7.bank;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -38,22 +44,35 @@ public final class DemoBankAccount {
      * @param args not used.
      * @throws InterruptedException wenn Warten unterbrochen wird.
      */
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
+        final long start = System.currentTimeMillis();
         final ArrayList<BankAccount> source = new ArrayList<>();
         final ArrayList<BankAccount> target = new ArrayList<>();
-        final int amount = 100_000;
-        final int number = 5;
+        final int amount = 500_080;
+        final int number = 50;
         for (int i = 0; i < number; i++) {
             source.add(new BankAccount(amount));
             target.add(new BankAccount());
         }
-        // Account Tasks starten...
-        if (true) {
-            throw new UnsupportedOperationException("Account Tasks starten...");
+        final ExecutorService executor = Executors.newCachedThreadPool();
+        try {
+            for (int i = 0; i < number; i++) {
+                executor.submit(new AccountTask(source.get(i),target.get(i),amount));
+                executor.submit(new AccountTask(target.get(i),source.get(i),amount));
+            }
         }
+        catch (final Exception e) {
+            LOG.error(e.getMessage());
+        }
+        finally {
+            executor.shutdown();
+        }
+
         LOG.info("Bank accounts after transfers");
         for (int i = 0; i < number; i++) {
             LOG.info("source({}) = {}; target({}) = {};", i, source.get(i).getBalance(), i, target.get(i).getBalance());
         }
+        LOG.info("Time elapsed: {}ms",(System.currentTimeMillis() - start));
     }
 }
+

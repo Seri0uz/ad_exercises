@@ -13,14 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.ad.exercise.n3.bank;
+package ch.hslu.sw7.bank;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Einfaches Bankkonto, das nur den Kontostand beinhaltet.
  */
-public final class BankAccount {
+public final class BankAccount extends AtomicInteger {
 
-    private int balance;
+    private final AtomicInteger balance;
 
     /**
      * Erzeugt ein Bankkonto mit einem Anfangssaldo.
@@ -28,7 +30,7 @@ public final class BankAccount {
      * @param balance Anfangssaldo
      */
     public BankAccount(final int balance) {
-        this.balance = balance;
+        this.balance = new AtomicInteger(balance);
     }
 
     /**
@@ -44,7 +46,7 @@ public final class BankAccount {
      * @return Kontostand.
      */
     public int getBalance() {
-        return this.balance;
+        return this.balance.get();
     }
 
     /**
@@ -53,17 +55,17 @@ public final class BankAccount {
      * @param amount Einzuzahlender Betrag
      */
     public void deposite(final int amount) {
-        this.balance += amount;
+        this.balance.addAndGet(amount);
     }
 
     /**
      * Überweist einen Betrag vom aktuellen Bankkonto an ein Ziel-Bankkonto.
      *
-     * @param target Bankkonto auf welches der Betrag überwiesen wird.
+     * @param target Bankkonto, auf welches der Betrag überwiesen wird.
      * @param amount zu überweisender Betrag.
      */
     public void transfer(final BankAccount target, final int amount) {
-        this.balance -= amount;
+        this.balance.addAndGet(-amount);
         target.deposite(amount);
     }
 }

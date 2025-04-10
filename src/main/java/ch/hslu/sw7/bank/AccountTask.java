@@ -13,7 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ch.hslu.ad.exercise.n3.bank;
+package ch.hslu.sw7.bank;
+
 
 /**
  * Bankauftrag, der der von einem Quell-Bankkonto einen Betrag an ein Ziel-Bankkonto überweist. Die
@@ -40,7 +41,7 @@ public final class AccountTask implements Runnable {
     @Override
     public void run() {
         for (int n = 0; n < amount; n++) {
-            source.transfer(target, 1);
+           source.transfer(target, 1);
         }
     }
 

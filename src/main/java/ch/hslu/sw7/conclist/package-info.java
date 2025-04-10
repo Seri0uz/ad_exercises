@@ -17,4 +17,4 @@
 /**
  * Vorgabe für Exercises von Nebenläufigkeit N3 - Container Thread-sicher.
  */
-package ch.hslu.ad.exercise.n3.conclist;
+package ch.hslu.sw7.conclist;

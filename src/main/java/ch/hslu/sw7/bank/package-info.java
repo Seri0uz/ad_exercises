@@ -17,4 +17,4 @@
 /**
  * Vorgabe für Exercises von Nebenläufigkeit N3 - Bankgeschäfte.
  */
-package ch.hslu.ad.exercise.n3.bank;
+package ch.hslu.sw7.bank;

@@ -15,25 +15,23 @@
  */
 package ch.hslu.sw7.conclist;
 
-import java.util.*;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.*;
+import java.util.concurrent.*;
 
 /**
  * Demonstration einer synchrnisierten List mit n Producer und m Consumer.
  */
-public final class DemoConcurrentList {
+public final class DemoBlockingQueue {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DemoConcurrentList.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DemoBlockingQueue.class);
 
     /**
      * Privater Konstruktor.
      */
-    private DemoConcurrentList() {
+    private DemoBlockingQueue() {
     }
 
     /**
@@ -41,29 +39,30 @@ public final class DemoConcurrentList {
      *
      * @param args not used.
      * @throws InterruptedException wenn das warten unterbrochen wird.
-     * @throws java.util.concurrent.ExecutionException bei Excecution-Fehler.
+     * @throws ExecutionException bei Excecution-Fehler.
      */
     public static void main(final String args[]) throws InterruptedException, ExecutionException {
         final long start = System.currentTimeMillis();
         final Random random = new Random();
-        final List<Integer> list = new LinkedList<>();
-        final List<Integer> synclist = Collections.synchronizedList(list);
+        final BlockingQueue<Integer> queue = new LinkedBlockingQueue<>() {
+        };
+
         final List<Future<Long>> futures = new ArrayList<>();
         try (final ExecutorService executor = Executors.newCachedThreadPool()) {
             for (int i = 0; i < 3; i++) {
-                futures.add(executor.submit(new Producer(synclist, random.nextInt(1_000))));
+                futures.add(executor.submit(new ProducerBlockingQueue(queue, random.nextInt(1_000))));
             }
             Iterator<Future<Long>> iterator = futures.iterator();
             long totProd = 0;
             while (iterator.hasNext()) {
                 long sum = iterator.next().get();
                 totProd += sum;
-                LOG.info("prod sum = {}" ,sum);
+                LOG.info("prod sum = " + sum);
             }
-            LOG.info("prod tot = {}" ,totProd);
-            long totCons = executor.submit(new Consumer(synclist)).get();
-            LOG.info("cons tot = {}" ,totCons);
-            LOG.info("Time used: {}ms", (System.currentTimeMillis() - start));
+            LOG.info("prod tot = " + totProd);
+            long totCons = executor.submit(new ConsumerBlockingQueue(queue)).get();
+            LOG.info("cons tot = " + totCons);
+            LOG.info("Time used: {}ms",(System.currentTimeMillis() - start));
         }
     }
 }

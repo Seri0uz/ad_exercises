@@ -17,14 +17,15 @@ package ch.hslu.sw7.conclist;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 
 /**
  * Konsument, der soviele Integer Werte aus einer Liste liest, wie er nur kann.
  */
-public final class Consumer implements Callable<Long> {
+public final class ConsumerBlockingQueue implements Callable<Long> {
 
-    private final List<Integer> list;
+    private final BlockingQueue<Integer> queue;
 
     /**
      * Erzeugt einen Konsumenten, der soviel Integer-Werte ausliest, wie er nur
@@ -32,20 +33,20 @@ public final class Consumer implements Callable<Long> {
      *
      * @param list Queue zum Lesen der Integer-Werte.
      */
-    public Consumer(final List<Integer> list) {
-        this.list = list;
+    public ConsumerBlockingQueue(final BlockingQueue<Integer> list) {
+        this.queue = list;
     }
 
     /**
      * Liefert die Summe aller ausgelesener Werte.
      *
      * @return Summe.
-     * @throws java.lang.Exception falls Ausnahmen passieren.
+     * @throws Exception falls Ausnahmen passieren.
      */
     @Override
     public Long call() throws Exception {
         long sum = 0;
-        Iterator<Integer> iterable = list.iterator();
+        Iterator<Integer> iterable = queue.iterator();
         while (iterable.hasNext()) {
             sum += iterable.next();
         }
