@@ -23,6 +23,7 @@ public final class Semaphore {
 
     private int sema; // Semaphorenzähler
     private int count; // Anzahl der wartenden Threads.
+    private int limit;
 
     /**
      * Erzeugt ein Semaphore mit 0 Passiersignalen.
@@ -41,8 +42,8 @@ public final class Semaphore {
         if (permits < 0) {
             throw new IllegalArgumentException(permits + " < 0");
         }
-        sema = permits;
-        count = 0;
+        this.sema = permits;
+        this.count = 0;
     }
 
     /**
@@ -54,8 +55,14 @@ public final class Semaphore {
      */
     public Semaphore(final int permits, final int limit) throws IllegalArgumentException {
         this(0);
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (permits < 0) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+        this.limit = limit;
+        this.sema = permits;
+        this.count = 0;
     }
+
 
     /**
      * Entspricht dem P() Eintritt (Passieren) in einen synchronisierten
@@ -83,8 +90,16 @@ public final class Semaphore {
      * @throws java.lang.InterruptedException falls das Warten unterbrochen
      * wird.
      */
-    public synchronized void acquire(final int permits) throws InterruptedException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public synchronized void acquire(int permits) throws InterruptedException {
+        while (permits > 0) {
+            while (sema == 0) {
+                count++;
+                permits--;
+                this.wait();
+            }
+            sema--;
+            count--;
+        }
     }
 
     /**
@@ -103,8 +118,18 @@ public final class Semaphore {
      *
      * @param permits Anzahl Passiersignale zur Freigabe.
      */
-    public synchronized void release(final int permits) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public synchronized void release(int permits) {
+
+        if (permits > limit) {
+            throw new ArithmeticException("permits is greater than limit");
+        }
+        if (sema + permits > limit) {
+            throw new IllegalArgumentException("can't release more than " + limit);
+        }
+        if (sema < permits) {
+            sema++;
+            this.notifyAll();
+        }
     }
 
     /**

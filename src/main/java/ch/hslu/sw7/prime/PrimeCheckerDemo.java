@@ -41,7 +41,7 @@ public class PrimeCheckerDemo {
         finally {
             LOG.info("Time needed for calculation: {}ms",(System.currentTimeMillis()-start));
             LOG.info("Shutting down");
-            executor.close();
+            executor.shutdown();
         }
 
 

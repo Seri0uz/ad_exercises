@@ -48,10 +48,9 @@ public final class SpeedCount {
             for (int i = 0; i < threads; i++) {
                 executor.submit(new CountTask(counter, counts));
             }
-            return System.currentTimeMillis()-start;
-
         } finally {
             executor.close();
+            return System.currentTimeMillis()-start;
         }
     }
 

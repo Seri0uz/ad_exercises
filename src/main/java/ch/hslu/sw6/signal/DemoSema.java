@@ -42,37 +42,37 @@ public final class DemoSema {
         try {
             new Semaphore(4, 3);
         } catch (IllegalArgumentException e) {
-            LOG.debug(e.getMessage());
+            LOG.info(e.getMessage());
         }
         try {
             Semaphore sema = new Semaphore(3, 3);
             sema.release();
         } catch (ArithmeticException e) {
-            LOG.debug(e.getMessage());
+            LOG.info(e.getMessage());
         }
         try {
             Semaphore sema = new Semaphore(0, 3);
             sema.release(4);
         } catch (ArithmeticException e) {
-            LOG.debug(e.getMessage());
+            LOG.info(e.getMessage());
         }
         try {
             Semaphore sema = new Semaphore(3, 3);
             sema.acquire(4);
         } catch (ArithmeticException e) {
-            LOG.debug(e.getMessage());
+            LOG.info(e.getMessage());
         }
         try {
             Semaphore sema = new Semaphore(3, 3);
             sema.acquire(-1);
         } catch (IllegalArgumentException e) {
-            LOG.debug(e.getMessage());
+            LOG.info(e.getMessage());
         }
         try {
             Semaphore sema = new Semaphore(1, 3);
             sema.release(-1);
         } catch (IllegalArgumentException e) {
-            LOG.debug(e.getMessage());
+            LOG.info(e.getMessage());
         }
     }
 }
