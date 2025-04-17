@@ -35,4 +35,16 @@ class InsertionSortTest {
         assertTrue(isSorted);
     }
 
+    @Test
+    void testBubbleSortRandom() {
+        int[] result = BubbleSort.sort(getShuffledNumbers(50));
+        boolean isSorted = true;
+        for (int i = 0; i < result.length; i++) {
+            if (result[i] != result.length && result[i] > result[i + 1]) {
+                isSorted = false;
+            }
+        }
+        assertTrue(isSorted);
+    }
+
 }
