@@ -60,7 +60,7 @@ public class SortingMain {
        //selectionSort();
 
         //BubbleSort.bubbleSort(getShuffledNumbers(50),true);
-        bubbleSort();
+        //bubbleSort();
 
         //BubbleSort.bubbleSort2(getShuffledNumbers(50),true);
         //bubbleSort2();

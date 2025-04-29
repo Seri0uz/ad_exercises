@@ -18,7 +18,6 @@ public class InsertionSort {
     }
 
     public static long insertionSort(final int[] a, boolean enableGUI) {
-        final long start = System.nanoTime();
         int element;
         int j;
         long numberOfComparisons = 0;
