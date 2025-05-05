@@ -51,13 +51,13 @@ public class SortingMain {
 
 
     public static void main(String[] args) {
-        //Quicksort.quickSort(getShuffledNumbers(100), 0, 99,true);
+        Quicksort.quickSort(getShuffledNumbers(50), 0, 49,true);
         //quickSort(5);
 
         //QuickInsertionSort.hybridQuickSort(getShuffledNumbers(100),0,99, true);
         //quickInsertionSort(5);
 
-        Heapsort.heapsort(getShuffledNumbers(50));
+        //Heapsort.heapsort(getShuffledNumbers(50));
 
 
     }

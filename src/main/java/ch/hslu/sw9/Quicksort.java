@@ -13,12 +13,14 @@ public class Quicksort {
             if (array[j] < pivot) {
                 i++;
                 swap(array,i,j,enableGUI);
+                if (enableGUI) {
+                    SortingAnimation.instance().showArray(array, 300, j);
+                    SortingAnimation.instance().showArray(array, 300, pivot);
+                }
             }
         }
         swap(array,i+1,end,enableGUI);
-        if (enableGUI) {
-            SortingAnimation.instance().showArray(array, 100, i);
-        }
+
         return i+1;
 
     }
@@ -29,7 +31,7 @@ public class Quicksort {
         array[i] = array[j];
         array[j] = temp;
         if (enableGUI) {
-            SortingAnimation.instance().showArray(array, 100, i);
+            SortingAnimation.instance().showArray(array, 300, i);
         }
         numberOfComparisons++;
 
