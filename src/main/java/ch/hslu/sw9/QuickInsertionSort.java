@@ -3,7 +3,7 @@ package ch.hslu.sw9;
 
 import ch.hslu.sw9.animation.SortingAnimation;
 
-import static ch.hslu.sw9.Quicksort.quickSort;
+
 
 public class QuickInsertionSort {
 
@@ -41,7 +41,7 @@ public class QuickInsertionSort {
     public static void hybridQuickSort(int[] array, int start, int end, boolean enableGUI) {
         int p;
         while (start < end) {
-            if (end - start < 10) {
+            if (end - start < 30) {
                 insertionSort(array, start, end, enableGUI);
                 break;
             }

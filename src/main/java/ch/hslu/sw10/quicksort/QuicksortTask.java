@@ -23,7 +23,7 @@ import java.util.concurrent.RecursiveAction;
 @SuppressWarnings("serial")
 public final class QuicksortTask extends RecursiveAction {
 
-    private static final int THRESHOLD = 1000;
+    private static final int THRESHOLD = 10_000;
     /**
      * Zu sortierendes Array.
      */
@@ -55,7 +55,7 @@ public final class QuicksortTask extends RecursiveAction {
     @Override
     protected void compute() {
         if (max - min < THRESHOLD) {
-            QuicksortRecursive.quicksort(array, min, max);
+            QuicksortRecursive.hybridQuickSort(array, min, max);
         }
         else {
             int pivot = QuicksortRecursive.partition(array, min, max);

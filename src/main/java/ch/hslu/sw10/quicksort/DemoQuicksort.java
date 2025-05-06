@@ -40,23 +40,46 @@ public final class DemoQuicksort {
      * @param args not used.
      */
     public static void main(final String[] args) {
-        final int size = 4_000_000;
+        final int size = 900_000;
+        final int numbOfRounds = 5;
         final int[] arrayOriginal = new int[size];
+
         try (final ForkJoinPool pool = new ForkJoinPool()) {
             RandomInitTask initTask = new RandomInitTask(arrayOriginal, 100);
             pool.invoke(initTask);
-            int[] arrayTask = Arrays.copyOf(arrayOriginal, size);
-            final QuicksortTask sortTask = new QuicksortTask(arrayTask);
-            pool.invoke(sortTask);
-            LOG.info("QuicksortTask  : {} sec.", '?');
-            int[] arrayRec = Arrays.copyOf(arrayOriginal, size);
-            QuicksortRecursive.quicksort(arrayRec);
-            LOG.info("QuicksortRec.  : {} sec.", '?');
-            int[] arraySort = Arrays.copyOf(arrayOriginal, size);
-            Arrays.sort(arraySort);
-            LOG.info("Arrays.sort    : {} sec.", '?');
+
+            long start, end, totalTimeTask = 0, totalTimeRec = 0, totalTimeSort = 0;
+
+           for (int i = 0; i < numbOfRounds; i++) {
+               int[] arrayTask = Arrays.copyOf(arrayOriginal, size);
+               start = System.currentTimeMillis();
+               final QuicksortTask sortTask = new QuicksortTask(arrayTask);
+               pool.invoke(sortTask);
+               end = System.currentTimeMillis();
+               totalTimeTask += end - start;
+           }
+            LOG.info("QuicksortTask  : {} ms.",totalTimeTask/numbOfRounds);
+
+            for (int i = 0; i < numbOfRounds; i++) {
+                int[] arrayRec = Arrays.copyOf(arrayOriginal, size);
+                start = System.currentTimeMillis();
+                QuicksortRecursive.quicksort(arrayRec);
+                end = System.currentTimeMillis();
+                totalTimeRec += end - start;
+            }
+            LOG.info("QuicksortRec.  : {} ms.", totalTimeRec/numbOfRounds);
+
+            for (int i = 0; i < numbOfRounds; i++) {
+                int[] arraySort = Arrays.copyOf(arrayOriginal, size);
+                start = System.currentTimeMillis();
+                Arrays.sort(arraySort);
+                end = System.currentTimeMillis();
+                totalTimeSort += end - start;
+            }
+            LOG.info("Arrays.sort    : {} ms.", totalTimeSort/numbOfRounds);
         } finally {
             // Executor shutdown
         }
+
     }
 }

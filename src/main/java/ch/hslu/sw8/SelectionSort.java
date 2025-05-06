@@ -21,7 +21,7 @@ public class SelectionSort {
                     minPosition = j;
                     min = array[minPosition];
                     if (enableGUI) {
-                        SortingAnimation.instance().showArray(array, 100, j);
+                        SortingAnimation.instance().showArray(array, 200, j);
                     }
                 }
                 numberOfComparisons++;
@@ -30,7 +30,7 @@ public class SelectionSort {
                 array[minPosition] = array[i];
                 array[i] = min;
                 if (enableGUI) {
-                    SortingAnimation.instance().showArray(array, 100, i);
+                    SortingAnimation.instance().showArray(array, 200, i);
                 }
             }
         }

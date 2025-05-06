@@ -38,14 +38,30 @@ public final class FindFilePerformance {
      * @param args not used.
      */
     public static void main(String[] args) {
+        final int numbOfRounds = 5;
+        long start, end, totalTimeTask = 0, totalTimeRec = 0;
+
         final String search = "find.me";
         final File rootDir = new File(System.getProperty("user.home"));
+
+
         LOG.info("Start searching '{}' recurive in '{}'", search, rootDir);
-        FindFile.findFile(search, rootDir);
-        LOG.info("Found in {} msec.", '?');
+        for (int i = 0; i < numbOfRounds; i++) {
+            start = System.currentTimeMillis();
+            FindFile.findFile(search, rootDir);
+            end = System.currentTimeMillis();
+            totalTimeTask += (end - start);
+        }
+        LOG.info("Found in {} msec.", totalTimeTask / numbOfRounds );
+
         LOG.info("Find '{}' concurrent in '{}'", search, rootDir);
-        final FindFileTask root = new FindFileTask(search, rootDir);
-        LOG.info(root.invoke());
-        LOG.info("Found in {} msec.", '?');
+        for (int i = 0; i < numbOfRounds; i++) {
+            start = System.currentTimeMillis();
+            final FindFileTask root = new FindFileTask(search, rootDir);
+            LOG.info(root.invoke());
+            end = System.currentTimeMillis();
+            totalTimeRec += (end - start);
+        }
+        LOG.info("Found in {} msec.", totalTimeRec / numbOfRounds );
     }
 }

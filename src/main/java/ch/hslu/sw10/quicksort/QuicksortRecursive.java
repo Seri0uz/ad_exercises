@@ -15,7 +15,6 @@
  */
 package ch.hslu.sw10.quicksort;
 
-import ch.hslu.sw9.animation.SortingAnimation;
 
 /**
  * Codevorlage zu RecursiveAction für die Sortierung eines int-Arrays.
@@ -36,48 +35,10 @@ public final class QuicksortRecursive {
      * @param array input array.
      */
     public static void quicksort(int[] array) {
-        QuicksortRecursive.quicksort(array, 0, array.length - 1);
+        QuicksortRecursive.hybridQuickSort(array, 0, array.length - 1);
     }
 
 
-    /**
-     * Recursive quicksort logic.
-     *
-     * @param array input array.
-     * @param start start index of the array.
-     * @param end end index of the array.
-     */
-    public static void quicksort(int[] array, int start, int end) {
-        int p;
-        while (start < end) {
-            if (end - start < 10) {
-                insertionSort(array, start, end);
-                break;
-            }
-            else {
-                p = partition(array, start, end);
-
-                if (p - start < p - end) {
-                    quicksort(array, start, p - 1);
-                    start = p + 1;
-                }
-                else {
-                    quicksort(array, p + 1, end);
-                    end = p - 1;
-                }
-            }
-        }
-    }
-
-    /**
-     * Divides array from pivot, left side contains elements less than Pivot
-     * while right side contains elements greater than pivot.
-     *
-     * @param array array to partitioned.
-     * @param start lower bound of the array.
-     * @param end upper bound of the array.
-     * @return the partition index.
-     */
     public static int partition(int[] array, int start, int end) {
         int pivot = array[end];
         int i = start - 1;
@@ -93,13 +54,35 @@ public final class QuicksortRecursive {
 
     }
 
-    private static void swap(final int[] array, final int i, final int j) {
+    private static void swap(int[] array, int i, int j) {
         int temp = array[i];
+
         array[i] = array[j];
         array[j] = temp;
     }
 
-    private static void insertionSort(final int[] array, final int start, final int end) {
+    public static void hybridQuickSort(int[] array, int start, int end) {
+        int p;
+        while (start < end) {
+            if (end - start < 30) {
+                insertionSort(array, start, end);
+                break;
+            } else {
+                p = partition(array, start, end);
+
+                if (p - start < p - end) {
+                    hybridQuickSort(array, start, p - 1);
+                    start = p + 1;
+                } else {
+                    hybridQuickSort(array, p + 1, end);
+                    end = p - 1;
+                }
+            }
+        }
+
+    }
+
+    private static void insertionSort(int[] array, int start, int end) {
         int element;
         int j;
         for (int i = start; i <= end; i++) {
@@ -110,6 +93,6 @@ public final class QuicksortRecursive {
                 j--;
             }
             array[j] = element;
-           }
+        }
     }
 }
