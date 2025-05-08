@@ -71,8 +71,9 @@ public final class FindFileTask extends CountedCompleter<String> {
                 new FindFileTask(this, regex, file, result).fork(); // parallel
             }
             else if (regex.equalsIgnoreCase(file.getName())) {
-                result.compareAndSet(null, file.getParent());
-                quietlyCompleteRoot(); // beende die Suche
+                if (result.compareAndSet(null, file.getParent())) {
+                    quietlyCompleteRoot(); // beende die Suche
+                }
                 return;
             }
         }

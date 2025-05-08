@@ -18,6 +18,9 @@ package ch.hslu.sw10.quicksort;
 import ch.hslu.sw10.init.RandomInitTask;
 import java.util.Arrays;
 import java.util.concurrent.ForkJoinPool;
+
+import ch.hslu.sw10.sort.SortTask;
+import ch.hslu.sw10.sort.check.SortCheckTask;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -57,8 +60,12 @@ public final class DemoQuicksort {
                pool.invoke(sortTask);
                end = System.currentTimeMillis();
                totalTimeTask += end - start;
+               //SortCheckTask sort = new SortCheckTask(arrayTask);
+               //boolean isSorted = sort.invoke();
+               //LOG.info("Ist sortiert: {}",isSorted);
            }
-            LOG.info("QuicksortTask  : {} ms.",totalTimeTask/numbOfRounds);
+
+           LOG.info("QuicksortTask  : {} ms.",totalTimeTask/numbOfRounds);
 
             for (int i = 0; i < numbOfRounds; i++) {
                 int[] arrayRec = Arrays.copyOf(arrayOriginal, size);

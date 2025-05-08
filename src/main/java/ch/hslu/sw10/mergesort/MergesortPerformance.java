@@ -52,17 +52,17 @@ public final class MergesortPerformance {
             pool.invoke(initTask);
             int[] array;
             for (int t : threshold) {
-                totalTimeConc = 0;
-                for (int i = 0; i < numbOfRuns; i++) {
-                    array = Arrays.copyOf(arrayOriginal, size);
-                    start = System.currentTimeMillis();
-                    final MergesortTask sortTask = new MergesortTask(array,t);
-                    pool.invoke(sortTask);
-                    end = System.currentTimeMillis();
-                    totalTimeConc += (end - start);
-                }
-                LOG.info("Conc. Mergesort with Threshold {}: {} msec.",t, totalTimeConc / numbOfRuns);
-            }
+               totalTimeConc = 0;
+               for (int i = 0; i < numbOfRuns; i++) {
+                   array = Arrays.copyOf(arrayOriginal, size);
+                   start = System.currentTimeMillis();
+                   final MergesortTask sortTask = new MergesortTask(array,t);
+                   pool.invoke(sortTask);
+                   end = System.currentTimeMillis();
+                   totalTimeConc += (end - start);
+               }
+               LOG.info("Conc. Mergesort with Threshold {}: {} msec.",t, totalTimeConc / numbOfRuns);
+           }
 
             for (int i = 0; i < numbOfRuns; i++) {
                 array = Arrays.copyOf(arrayOriginal, size);

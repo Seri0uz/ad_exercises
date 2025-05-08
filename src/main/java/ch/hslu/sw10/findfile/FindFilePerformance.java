@@ -38,7 +38,7 @@ public final class FindFilePerformance {
      * @param args not used.
      */
     public static void main(String[] args) {
-        final int numbOfRounds = 3;
+        final int numbOfRounds = 1;
         long start, end, totalTimeTask = 0, totalTimeRec = 0;
 
         final String search = "find.me";
