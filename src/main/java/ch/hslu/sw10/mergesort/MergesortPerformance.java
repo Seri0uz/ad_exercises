@@ -41,26 +41,48 @@ public final class MergesortPerformance {
      */
     public static void main(final String[] args) {
         final int size = 400_000_000;
+        final int[] threshold = {10,60,600,6000,60000,600000,6000000};
+        final int numbOfRuns = 5;
+        long start, end, totalTimeRec = 0, totalTimeConc = 0, totalTimeSort = 0;
+
         final int[] arrayOriginal = new int[size];
+
         try (final ForkJoinPool pool = new ForkJoinPool()) {
             RandomInitTask initTask = new RandomInitTask(arrayOriginal, 100);
             pool.invoke(initTask);
-            int[] array = Arrays.copyOf(arrayOriginal, size);
-            final MergesortTask sortTask = new MergesortTask(array);
+            int[] array;
+            for (int t : threshold) {
+                totalTimeConc = 0;
+                for (int i = 0; i < numbOfRuns; i++) {
+                    array = Arrays.copyOf(arrayOriginal, size);
+                    start = System.currentTimeMillis();
+                    final MergesortTask sortTask = new MergesortTask(array,t);
+                    pool.invoke(sortTask);
+                    end = System.currentTimeMillis();
+                    totalTimeConc += (end - start);
+                }
+                LOG.info("Conc. Mergesort with Threshold {}: {} msec.",t, totalTimeConc / numbOfRuns);
+            }
 
-            long startTime = System.currentTimeMillis();
-            pool.invoke(sortTask);
-            LOG.info("Conc. Mergesort : {} msec.", System.currentTimeMillis() - startTime);
-            array = Arrays.copyOf(arrayOriginal, size);
+            for (int i = 0; i < numbOfRuns; i++) {
+                array = Arrays.copyOf(arrayOriginal, size);
 
-            startTime = System.currentTimeMillis();
-            MergesortRecursive.mergeSort(array);
-            LOG.info("MergesortRec.   : {} msec.", System.currentTimeMillis() - startTime);
-            array = Arrays.copyOf(arrayOriginal, size);
+                start = System.currentTimeMillis();
+                MergesortRecursive.mergeSort(array);
+                end = System.currentTimeMillis();
+                totalTimeRec += (end - start);
+            }
+            LOG.info("MergesortRec.   : {} msec.", totalTimeRec / numbOfRuns);
 
-            startTime = System.currentTimeMillis();
-            Arrays.parallelSort(array);
-            LOG.info("ParallelSort    : {} msec.", System.currentTimeMillis() - startTime);
+            for (int i = 0; i < numbOfRuns; i++) {
+                array = Arrays.copyOf(arrayOriginal, size);
+                start = System.currentTimeMillis();
+                Arrays.parallelSort(array);
+                end = System.currentTimeMillis();
+                totalTimeSort += (end - start);
+            }
+            LOG.info("ParallelSort    : {} msec.", totalTimeSort / numbOfRuns);
+
         } finally {
             // Executor shutdown
         }
